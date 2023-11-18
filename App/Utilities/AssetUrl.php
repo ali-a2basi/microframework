@@ -11,4 +11,10 @@ class AssetUrl{
         return $actualLink;
         
     }
+
+    public static function current_uri()
+    {
+        return strtok($_SERVER['REQUEST_URI'], '?');
+        
+    }
 }
