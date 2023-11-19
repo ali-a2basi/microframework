@@ -1,0 +1,64 @@
+<?php
+namespace App\Core;
+
+
+class Request{
+    private $params;
+    private $ip;
+    private $uri;
+    private $method;
+    private $agent;
+    public $queryString;
+    private $data = [];
+
+
+    public function __construct()
+    {
+        $this->params = $_REQUEST;
+        $this->ip = $_SERVER['REMOTE_ADDR'] ;
+        $this->uri = $_SERVER['REQUEST_URI'] ;
+        $this->method = $_SERVER['REQUEST_METHOD'] ;
+        $this->agent = strtok($_SERVER['HTTP_USER_AGENT'], '?') ;
+        parse_str($_SERVER['QUERY_STRING'], $this->queryString);
+
+
+    }
+    
+    public function get_params(){
+        return $this->params;
+    }
+
+
+    public function get_ip(){
+        return $this->ip;
+    }
+    public function get_uri(){
+        return $this->uri;
+    }
+
+    public function get_method(){
+        return $this->method;
+    }
+
+    public function get_agent(){
+        return $this->agent;
+    }
+
+
+    public function input(string $key = null ){
+        return $this->params[$key] ?? null;
+
+
+    }
+
+    public function __get($name): string|null
+    
+    {
+
+        return array_key_exists($name, $this->params) ? $this->params[$name] : null;
+    }
+    
+
+
+    
+}
