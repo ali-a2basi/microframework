@@ -9,7 +9,6 @@ class Request{
     private $method;
     private $agent;
     public $queryString;
-    private $data = [];
 
 
     public function __construct()

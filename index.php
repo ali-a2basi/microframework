@@ -1,13 +1,13 @@
 <?php
 
-use App\Core\Request;
-use App\Core\StupidRouter;
-use App\Utilities\AssetUrl;
+use App\Core\Routing\Route;
 
 include __DIR__."/bootstrap/Init.php";
 
-$request = new Request();
-var_dump($request->family);
+var_dump(Route::route());
+
+
+
 
 
 
