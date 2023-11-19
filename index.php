@@ -1,10 +1,12 @@
 <?php
 
-use App\Core\Routing\Route;
+use App\Core\Routing\Router;
 
 include __DIR__."/bootstrap/Init.php";
 
-var_dump(Route::route());
+
+
+$router = new Router;
 
 
 

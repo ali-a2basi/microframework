@@ -8,19 +8,16 @@ class Request{
     private $uri;
     private $method;
     private $agent;
-    public $queryString;
-
+    
 
     public function __construct()
     {
         $this->params = $_REQUEST;
         $this->ip = $_SERVER['REMOTE_ADDR'] ;
         $this->uri = $_SERVER['REQUEST_URI'] ;
-        $this->method = $_SERVER['REQUEST_METHOD'] ;
+        $this->method = strtolower($_SERVER['REQUEST_METHOD']) ;
         $this->agent = strtok($_SERVER['HTTP_USER_AGENT'], '?') ;
-        parse_str($_SERVER['QUERY_STRING'], $this->queryString);
-
-
+        
     }
     
     public function get_params(){
@@ -56,8 +53,5 @@ class Request{
 
         return array_key_exists($name, $this->params) ? $this->params[$name] : null;
     }
-    
-
-
-    
+        
 }

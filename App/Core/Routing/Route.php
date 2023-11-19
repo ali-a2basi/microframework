@@ -8,7 +8,7 @@ class Route{
 
     public static function add($methods, $uri, $action = null){
         $methods = is_array($methods) ? $methods : [$methods];
-        self::$routes = ['methods' => $methods, 'uri' => $uri, 'action' => $action];
+        self::$routes[] = ['methods' => $methods, 'uri' => $uri, 'action' => $action];
     }
 
     public static function get($uri, $action = null){
@@ -16,30 +16,29 @@ class Route{
     }
 
     public static function post($uri, $action = null){
-
         self::add('post', $uri, $action = null);
     }
 
     public static function put($uri, $action = null){
         self::add('put', $uri, $action = null);
     }
+
     public static function delete($uri, $action = null){
         self::add('delete', $uri, $action = null);
     }
+
     public static function patch($uri, $action = null){
         self::add('patch', $uri, $action = null);
     }
+
     public static function head($uri, $action = null){
         self::add('head', $uri, $action = null);
     }
+
     public static function option($uri, $action = null){
 
         self::add('head', $uri, $action = null);
     }
-
-
-
-
 
     public static function route(){
         return self::$routes;
