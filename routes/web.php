@@ -5,8 +5,10 @@ use App\Core\Routing\Route;
 
 
 Route::add(['get', 'put'],'/b');
-Route::get('/home');
-Route::get('/');
+Route::get('/home', ['HomeController', 'index']);
 
-Route::post('/Applications');
+Route::get('/', function(){
+
+    echo "welcome";
+});
 

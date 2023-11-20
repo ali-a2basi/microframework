@@ -9,6 +9,7 @@ class Router{
     private $request;
     private $routes;
     private $current_route;
+    const fullNameSpace = 'App\Controllers\\';
 
 
 
@@ -17,7 +18,7 @@ class Router{
         $this->request = new Request;
         $this->routes = Route::route();
         $this->current_route = $this->findRoute($this->request) ?? null;
-        var_dump($this->current_route);
+
 
     }
 
@@ -75,11 +76,68 @@ class Router{
             }
 
 
-        $this->dispatcher();
+        $this->dispatch($this->current_route);
     }
 
-    private function dispatcher(){
-        
+     function dispatch($route){
+
+        $action = $route['action'];
+
+
+       #null requests
+
+        if(is_null($this->current_route)){
+
+            return;
+        }
+
+
+        #closures
+
+
+        if(is_callable($action)){
+
+
+            $action();
+
+            //second way to call an anonymous function
+            // call_user_func($action);
+        }
+
+
+
+        #string patterns ['NameController@method']
+
+        if(is_string($action)){
+            $action = explode('@', $action);
+        }
+
+
+
+
+        #array patterns ['NameController', 'method']
+
+        if(is_array($action)){
+           
+            $className = self::fullNameSpace .$action[0];
+
+            $method = $action[1];
+
+            if(!class_exists($className)){
+
+                throw new \Exception($className. 'not exists');
+            }
+
+            $callClass = new $className();
+            if(!method_exists($callClass, $method)){
+
+                throw new \Exception("$method does not exist in class $className");
+            }
+
+            $callClass->$method();
+
+        }
+
     }
 
 }
