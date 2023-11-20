@@ -4,4 +4,9 @@ use App\Core\Routing\Route;
 
 
 
-Route::get('/b');
+Route::add(['get', 'put'],'/b');
+Route::get('/home');
+Route::get('/');
+
+Route::post('/Applications');
+
