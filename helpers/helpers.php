@@ -23,11 +23,12 @@ function randoElement($arr){
 }
 
 
-function view($path){
+function view($path, $data = null){
     #input errors.404
     #/views/errors/404.php
-
+    
     //changing errors.php to errors/php
+    extract($data);
     $changePath = str_replace('.', '/' , $path );
 
     //creating full Path

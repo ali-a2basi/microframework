@@ -37,7 +37,6 @@
     <div class="container">
       <h1>405 Method Not Allowed</h1>
       <p>The requested method is not allowed for the requested URL.</p>
-      <p>Please check the URL or go to the <a href="/">homepage</a>.</p>
     </div>
   </body>
 </html>

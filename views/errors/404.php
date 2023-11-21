@@ -37,7 +37,6 @@
     <div class="container">
       <h1>404 Not Found</h1>
       <p>The page you are looking for could not be found.</p>
-      <p>Please check the URL or go to the <a href="/">homepage</a>.</p>
     </div>
   </body>
 </html>
