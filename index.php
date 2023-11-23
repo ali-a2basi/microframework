@@ -7,7 +7,7 @@ include __DIR__."/bootstrap/Init.php";
 
 
 $router = new Router;
-$router->run();
+// $router->run();
 
 
 
