@@ -4,6 +4,7 @@
 namespace App\Core\Routing;
 
 use App\Core\Request;
+use App\Middleware\GlobalMiddleWare;
 
 class Router{
     const fullNameSpace = 'App\Controllers\\';
@@ -19,8 +20,10 @@ class Router{
 
         $this->request = new Request;
         $this->routes = Route::route();
+        
         $this->current_route = $this->findRoute($this->request) ?? null;
-        if($this->current_route['middleware']){
+        
+        if($this->current_route['middleware'] ){
             $this->runMiddleware();
         }
         
@@ -79,6 +82,10 @@ class Router{
     }
     public function run(){
 
+        $checkChrome = new GlobalMiddleWare();
+        if($checkChrome->handle()){
+            die('Access Denied');
+        }
         
         #405 method not supported
 

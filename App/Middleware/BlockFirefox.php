@@ -12,6 +12,7 @@ class BlockFirefox implements MiddlewareInterface{
 
             die('Access Denied');
         } 
+        var_dump(Browser::deviceType());
         
         
 
