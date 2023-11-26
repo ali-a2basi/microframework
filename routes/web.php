@@ -1,8 +1,8 @@
 <?php
 
 use App\Core\Routing\Route;
-
-
+use App\Middleware\BlockFirefox;
+use App\Middleware\BlockIE;
 
 Route::add(['get', 'put'],'/b');
 Route::get('/home', ['HomeController', 'index']);
@@ -13,6 +13,6 @@ Route::get('/', function(){
 });
 
 
-Route::get('/checkMiddleware', 'HomeController@index', []);
+Route::get('/checkMiddleware', 'HomeController@index', [BlockFirefox::class, BlockIE::class]);
 
 

@@ -27,7 +27,13 @@ class Router{
 
 
     private function runMiddleware(){
-        var_dump($this->current_route['middleware']);
+        $middlewares = $this->current_route['middleware'];
+        foreach($middlewares as $middleware){
+
+            $middleClassFullName = "\\$middleware";
+            $middlewareClass = new $middleClassFullName;
+            $middlewareClass->handle();
+        }
         die();
 
     }
