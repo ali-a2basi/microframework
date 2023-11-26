@@ -13,6 +13,6 @@ Route::get('/', function(){
 });
 
 
-Route::get('/checkMiddleware', 'HomeController@index', [BlockFirefox::class, BlockIE::class]);
+Route::get('/checkMiddleware', 'HomeController@index', [BlockFirefox::class]);
 
 

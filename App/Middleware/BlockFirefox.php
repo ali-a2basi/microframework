@@ -3,11 +3,17 @@
 namespace App\Middleware;
 
 use App\Middleware\Contracts\MiddlewareInterface;
+use hisorange\BrowserDetect\Parser as Browser;
 
 class BlockFirefox implements MiddlewareInterface{
 
     public function handle(){
-        echo "block firefox";       
+        if(Browser::isFirefox()){
+
+            die('Access Denied');
+        } 
+        
+        
 
     }
 

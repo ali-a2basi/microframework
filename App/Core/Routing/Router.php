@@ -20,9 +20,10 @@ class Router{
         $this->request = new Request;
         $this->routes = Route::route();
         $this->current_route = $this->findRoute($this->request) ?? null;
-        $this->runMiddleware();
-
-
+        if($this->current_route['middleware']){
+            $this->runMiddleware();
+        }
+        
     }
 
 
