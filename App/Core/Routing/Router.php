@@ -6,10 +6,12 @@ namespace App\Core\Routing;
 use App\Core\Request;
 
 class Router{
+    const fullNameSpace = 'App\Controllers\\';
     private $request;
     private $routes;
     private $current_route;
-    const fullNameSpace = 'App\Controllers\\';
+    
+    
 
 
 
@@ -18,7 +20,15 @@ class Router{
         $this->request = new Request;
         $this->routes = Route::route();
         $this->current_route = $this->findRoute($this->request) ?? null;
+        $this->runMiddleware();
 
+
+    }
+
+
+    private function runMiddleware(){
+        var_dump($this->current_route['middleware']);
+        die();
 
     }
 
@@ -123,12 +133,19 @@ class Router{
 
             $method = $action[1];
 
+            // checking that if class is exist
+
             if(!class_exists($className)){
 
                 throw new \Exception($className. 'not exists');
             }
 
+
             $callClass = new $className();
+
+            // checking that if method is exist 
+            
+            
             if(!method_exists($callClass, $method)){
 
                 throw new \Exception("$method does not exist in class $className");

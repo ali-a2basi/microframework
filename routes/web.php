@@ -12,3 +12,7 @@ Route::get('/', function(){
     echo "welcome";
 });
 
+
+Route::get('/checkMiddleware', 'HomeController@index', []);
+
+
