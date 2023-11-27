@@ -4,12 +4,15 @@
 namespace App\Core\Routing;
 
 use App\Core\Request;
+use App\Middleware\GlobalMiddleWare;
 
 class Router{
+    const fullNameSpace = 'App\Controllers\\';
     private $request;
     private $routes;
     private $current_route;
-    const fullNameSpace = 'App\Controllers\\';
+    
+    
 
 
 
@@ -17,8 +20,25 @@ class Router{
 
         $this->request = new Request;
         $this->routes = Route::route();
+        
         $this->current_route = $this->findRoute($this->request) ?? null;
+        
+        if($this->current_route['middleware'] ){
+            $this->runMiddleware();
+        }
+        
+    }
 
+
+    private function runMiddleware(){
+        $middlewares = $this->current_route['middleware'];
+        foreach($middlewares as $middleware){
+
+            $middleClassFullName = "\\$middleware";
+            $middlewareClass = new $middleClassFullName;
+            $middlewareClass->handle();
+        }
+        die();
 
     }
 
@@ -62,6 +82,10 @@ class Router{
     }
     public function run(){
 
+        $checkChrome = new GlobalMiddleWare();
+        if($checkChrome->handle()){
+            die('Access Denied');
+        }
         
         #405 method not supported
 
@@ -123,12 +147,19 @@ class Router{
 
             $method = $action[1];
 
+            // checking that if class is exist
+
             if(!class_exists($className)){
 
                 throw new \Exception($className. 'not exists');
             }
 
+
             $callClass = new $className();
+
+            // checking that if method is exist 
+            
+            
             if(!method_exists($callClass, $method)){
 
                 throw new \Exception("$method does not exist in class $className");

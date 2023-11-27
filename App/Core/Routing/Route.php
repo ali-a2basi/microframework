@@ -6,6 +6,7 @@ class Route{
 
     private static $routes = [];
 
+
     public static function add($methods, $uri, $action = null, $middleWare =[]){
         $methods = is_array($methods) ? $methods : [$methods];
         self::$routes[] = ['methods' => $methods, 'uri' => $uri, 'action' => $action, 'middleware' => $middleWare];
@@ -20,7 +21,7 @@ class Route{
     }
 
     public static function put($uri, $action = null, $middleWare =[]){
-        self::add('put', $uri, $action);
+        self::add('put', $uri, $action, $middleWare);
     }
 
     public static function delete($uri, $action = null, $middleWare =[]){

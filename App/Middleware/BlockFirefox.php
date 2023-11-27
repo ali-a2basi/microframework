@@ -5,13 +5,16 @@ namespace App\Middleware;
 use App\Middleware\Contracts\MiddlewareInterface;
 use hisorange\BrowserDetect\Parser as Browser;
 
-class BlockIE implements MiddlewareInterface {
+class BlockFirefox implements MiddlewareInterface{
 
     public function handle(){
-        if(Browser::isIE()){
+        if(Browser::isFirefox()){
 
             die('Access Denied');
-        }       
+        } 
+        var_dump(Browser::deviceType());
+        
+        
 
     }
 
