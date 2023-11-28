@@ -19,13 +19,14 @@ class Router{
     public function __construct(){
 
         $this->request = new Request;
-        $this->routes = Route::route();
-        
+        $this->routes = Route::route(); 
+        nice_dump($this->routes);       
         $this->current_route = $this->findRoute($this->request) ?? null;
+
         
-        if($this->current_route['middleware'] ){
-            $this->runMiddleware();
-        }
+        // if($this->current_route['middleware'] ){
+        //     $this->runMiddleware();
+        // }
         
     }
 
@@ -46,14 +47,34 @@ class Router{
     public function findRoute(Request $request){
 
         foreach($this->routes as $route){
+
             
             
-            if(in_array($request->get_method(), $route['methods']) and $request->get_uri()==$route['uri']){
+            if(!in_array($request->get_method(), $route['methods'])){
+                return false;
+
+            }
+            if($this->regexMatched($route)){
                 return $route;
+
 
             }
         }
         return null;
+
+    }
+
+
+    public function regexMatched($route){
+        nice_dump($this->request->get_uri());
+
+        $pattern = "/^" .str_replace(['/', '{', '}'],['\/', '(?<', '>[-%\w]+)'],$route["uri"])."$/";
+        nice_dump($pattern);
+        $result = preg_match($pattern, $this->request->get_uri(), $matches);
+        // var_dump($result);
+
+        
+
 
     }
 
@@ -81,11 +102,11 @@ class Router{
 
     }
     public function run(){
-
-        $checkChrome = new GlobalMiddleWare();
-        if($checkChrome->handle()){
-            die('Access Denied');
-        }
+        //checking that if user agent is chrome 
+        // $checkChrome = new GlobalMiddleWare();
+        // if($checkChrome->handle()){
+        //     die('Access Denied');
+        // }
         
         #405 method not supported
 
