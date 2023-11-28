@@ -4,7 +4,7 @@
 namespace App\Core\Routing;
 
 use App\Core\Request;
-use App\Middleware\GlobalMiddleWare;
+
 
 class Router{
     const fullNameSpace = 'App\Controllers\\';
@@ -19,8 +19,10 @@ class Router{
     public function __construct(){
 
         $this->request = new Request;
+        nice_dump($this->request);
         $this->routes = Route::route();      
         $this->current_route = $this->findRoute($this->request) ?? null;
+         
 
         
         // if($this->current_route['middleware'] ){
@@ -53,6 +55,7 @@ class Router{
                 return false;
 
             }
+
             if($this->regexMatched($route)){
                 return $route;
 
@@ -65,6 +68,7 @@ class Router{
 
 
     public function regexMatched($route){
+        global $request;
         $pattern = "/^" .str_replace(['/', '{', '}'],['\/', '(?<', '>[-%\w]+)'],$route["uri"]). "$/";
         $result = preg_match($pattern, $this->request->get_uri(), $matches);
 
@@ -75,7 +79,7 @@ class Router{
 
         foreach($matches as $key => $value){
             if(!is_int($key)){
-                echo "$key => $value";
+                $request->add_route_params($key, $value);
 
             }
             
