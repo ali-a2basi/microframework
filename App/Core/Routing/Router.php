@@ -19,8 +19,7 @@ class Router{
     public function __construct(){
 
         $this->request = new Request;
-        $this->routes = Route::route(); 
-        nice_dump($this->routes);       
+        $this->routes = Route::route();      
         $this->current_route = $this->findRoute($this->request) ?? null;
 
         
@@ -66,14 +65,22 @@ class Router{
 
 
     public function regexMatched($route){
-        nice_dump($this->request->get_uri());
-
-        $pattern = "/^" .str_replace(['/', '{', '}'],['\/', '(?<', '>[-%\w]+)'],$route["uri"])."$/";
-        nice_dump($pattern);
+        $pattern = "/^" .str_replace(['/', '{', '}'],['\/', '(?<', '>[-%\w]+)'],$route["uri"]). "$/";
         $result = preg_match($pattern, $this->request->get_uri(), $matches);
-        // var_dump($result);
 
-        
+        if(!$result){
+
+            return false;
+        }
+
+        foreach($matches as $key => $value){
+            if(!is_int($key)){
+                echo "$key => $value";
+
+            }
+            
+        }
+        return true;     
 
 
     }
