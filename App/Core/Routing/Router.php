@@ -149,8 +149,6 @@ class Router{
 
 
         #closures
-
-
         if(is_callable($action)){
 
 
@@ -159,18 +157,11 @@ class Router{
             //second way to call an anonymous function
             // call_user_func($action);
         }
-
-
-
         #string patterns ['NameController@method']
 
         if(is_string($action)){
             $action = explode('@', $action);
         }
-
-
-
-
         #array patterns ['NameController', 'method']
 
         if(is_array($action)){
