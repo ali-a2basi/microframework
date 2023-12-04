@@ -40,5 +40,13 @@ function view($path, $data = null){
 
 
 
+function nice_dump($variable){
+    echo '<pre>';
+    var_dump($variable);
+    echo '</pre>';
+}
+
+
+
 
 

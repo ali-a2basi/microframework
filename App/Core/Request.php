@@ -3,6 +3,7 @@ namespace App\Core;
 
 
 class Request{
+    private $route_params;
     private $params;
     private $ip;
     private $uri;
@@ -11,13 +12,16 @@ class Request{
     
 
     public function __construct()
-    {
+    { 
         $this->params = $_REQUEST;
         $this->ip = $_SERVER['REMOTE_ADDR'] ;
         $this->uri = $_SERVER['REQUEST_URI'] ;
         $this->method = strtolower($_SERVER['REQUEST_METHOD']) ;
         $this->agent = strtok($_SERVER['HTTP_USER_AGENT'], '?') ;
         
+    }
+    public function add_route_params($key, $value){
+        return $this->route_params[$key] = $value;
     }
     
     public function get_params(){

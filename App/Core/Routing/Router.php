@@ -4,7 +4,7 @@
 namespace App\Core\Routing;
 
 use App\Core\Request;
-use App\Middleware\GlobalMiddleWare;
+
 
 class Router{
     const fullNameSpace = 'App\Controllers\\';
@@ -19,13 +19,15 @@ class Router{
     public function __construct(){
 
         $this->request = new Request;
-        $this->routes = Route::route();
-        
+        nice_dump($this->request);
+        $this->routes = Route::route();      
         $this->current_route = $this->findRoute($this->request) ?? null;
+         
+
         
-        if($this->current_route['middleware'] ){
-            $this->runMiddleware();
-        }
+        // if($this->current_route['middleware'] ){
+        //     $this->runMiddleware();
+        // }
         
     }
 
@@ -46,14 +48,44 @@ class Router{
     public function findRoute(Request $request){
 
         foreach($this->routes as $route){
+
             
             
-            if(in_array($request->get_method(), $route['methods']) and $request->get_uri()==$route['uri']){
+            if(!in_array($request->get_method(), $route['methods'])){
+                return false;
+
+            }
+
+            if($this->regexMatched($route)){
                 return $route;
+
 
             }
         }
         return null;
+
+    }
+
+
+    public function regexMatched($route){
+        global $request;
+        $pattern = "/^" .str_replace(['/', '{', '}'],['\/', '(?<', '>[-%\w]+)'],$route["uri"]). "$/";
+        $result = preg_match($pattern, $this->request->get_uri(), $matches);
+
+        if(!$result){
+
+            return false;
+        }
+
+        foreach($matches as $key => $value){
+            if(!is_int($key)){
+                $request->add_route_params($key, $value);
+
+            }
+            
+        }
+        return true;     
+
 
     }
 
@@ -81,11 +113,11 @@ class Router{
 
     }
     public function run(){
-
-        $checkChrome = new GlobalMiddleWare();
-        if($checkChrome->handle()){
-            die('Access Denied');
-        }
+        //checking that if user agent is chrome 
+        // $checkChrome = new GlobalMiddleWare();
+        // if($checkChrome->handle()){
+        //     die('Access Denied');
+        // }
         
         #405 method not supported
 
@@ -117,8 +149,6 @@ class Router{
 
 
         #closures
-
-
         if(is_callable($action)){
 
 
@@ -127,18 +157,11 @@ class Router{
             //second way to call an anonymous function
             // call_user_func($action);
         }
-
-
-
         #string patterns ['NameController@method']
 
         if(is_string($action)){
             $action = explode('@', $action);
         }
-
-
-
-
         #array patterns ['NameController', 'method']
 
         if(is_array($action)){
